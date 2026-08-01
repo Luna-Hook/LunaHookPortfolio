@@ -2,6 +2,8 @@
 
 Public developer portfolio for Luna Hook, built as a static Next.js site for free GitHub Pages hosting.
 
+Live site: https://luna-hook.github.io/LunaHookPortfolio/
+
 ## Local development
 
 ```bash
