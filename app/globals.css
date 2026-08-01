@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+@property --blob-x {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 70%;
+}
+@property --blob-y {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 20%;
+}
+
 :root {
   --ink: #1a100c;
   --espresso: #3a1f14;
@@ -208,6 +219,10 @@ h3 {
   font-size: 26px;
 }
 .hero {
+  --blob-x: 70%;
+  --blob-y: 20%;
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: 1.35fr 0.8fr;
   gap: clamp(40px, 7vw, 100px);
@@ -215,11 +230,26 @@ h3 {
   min-height: 720px;
   background:
     radial-gradient(
-      circle at 70% 20%,
+      circle at var(--blob-x) var(--blob-y),
       rgba(230, 184, 120, 0.55),
       transparent 34%
     ),
     linear-gradient(120deg, var(--paper), #efd6ad);
+  transition:
+    --blob-x 180ms ease-out,
+    --blob-y 180ms ease-out;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at calc(var(--blob-x) - 6%) calc(var(--blob-y) + 7%),
+    rgba(197, 138, 84, 0.08),
+    transparent 15%
+  );
 }
 .hero h1 em {
   font-style: normal;
@@ -785,6 +815,11 @@ footer p {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    transition: none;
   }
 }
 @media (max-width: 900px) {

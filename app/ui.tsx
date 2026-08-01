@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Plugin, plugins, searchText } from "./data/plugins";
 
 const discord = "https://discord.com/users/1344843044905685004";
@@ -43,8 +43,12 @@ function PluginCard({ plugin }: { plugin: Plugin }) { return <article className=
 
 export function HomePage() {
   const featured = ["supertnt","civilizations","discordconsole","simplebots"].map(s => plugins.find(p => p.slug === s)!);
+  const blobFrame = useRef<number | null>(null);
+  useEffect(()=>()=>{if(blobFrame.current!==null)cancelAnimationFrame(blobFrame.current);},[]);
+  const moveBlob=(event:React.PointerEvent<HTMLElement>)=>{if(event.pointerType==="touch"||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;const hero=event.currentTarget;const bounds=hero.getBoundingClientRect();const x=Math.max(0,Math.min(1,(event.clientX-bounds.left)/bounds.width));const y=Math.max(0,Math.min(1,(event.clientY-bounds.top)/bounds.height));if(blobFrame.current!==null)cancelAnimationFrame(blobFrame.current);blobFrame.current=requestAnimationFrame(()=>{hero.style.setProperty("--blob-x",`${64+x*16}%`);hero.style.setProperty("--blob-y",`${12+y*18}%`);blobFrame.current=null;});};
+  const resetBlob=(event:React.PointerEvent<HTMLElement>)=>{if(blobFrame.current!==null)cancelAnimationFrame(blobFrame.current);event.currentTarget.style.removeProperty("--blob-x");event.currentTarget.style.removeProperty("--blob-y");blobFrame.current=null;};
   return <Shell>
-    <section className="hero section"><div className="hero-copy"><Mark>Available for developer work</Mark><h1>Systems built to feel <em>obvious</em> in use.</h1><p className="lede">I’m Luna Hook, a high-school developer focused on dependable Minecraft plugins, Discord integrations, server operations, and community systems that solve real problems.</p><div className="hero-actions"><a className="button primary" href={discord} target="_blank" rel="noreferrer">Discuss a project <span>↗</span></a><Link className="button ghost" href="/plugins">Explore 41 plugins</Link></div><div className="availability"><span></span>Open to custom plugin work, developer work & commissions</div></div>
+    <section className="hero section" onPointerMove={moveBlob} onPointerLeave={resetBlob}><div className="hero-copy"><Mark>Available for developer work</Mark><h1>Systems built to feel <em>obvious</em> in use.</h1><p className="lede">I’m Luna Hook, a high-school developer focused on dependable Minecraft plugins, Discord integrations, server operations, and community systems that solve real problems.</p><div className="hero-actions"><a className="button primary" href={discord} target="_blank" rel="noreferrer">Discuss a project <span>↗</span></a><Link className="button ghost" href="/plugins">Explore 41 plugins</Link></div><div className="availability"><span></span>Open to custom plugin work, developer work & commissions</div></div>
     <div className="craft-panel" aria-label="Portfolio highlights"><div className="craft-grid">{["Paper","Java","Discord","SQLite","Systems","UX","Config","Security","Ops"].map((x,i)=><span key={x} className={i===4?"center":""}>{x}</span>)}</div><p><b>Professional first.</b> Minecraft-flavored by craft, not costume.</p></div></section>
     <section className="metrics section"><div><strong>41</strong><span>complete plugin guides</span></div><div><strong>31</strong><span>public repositories</span></div><div><strong>10</strong><span>request-only builds</span></div><div><strong>4</strong><span>Build Scale levels</span></div></section>
     <section className="section split"><div><Mark>Technical focus</Mark><h2>From gameplay mechanic to operating system.</h2></div><div className="prose"><p>I design configurable systems with the full operator experience in mind: commands, permissions, safe defaults, workflows, persistence, feedback, recovery, and the edge cases that appear after launch.</p><p>My work ranges from focused quality-of-life mechanics to large combat suites, event engines, Discord bridges, staff tooling, territory systems, analytics, and simulated-player workflows.</p></div></section>
