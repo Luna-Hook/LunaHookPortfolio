@@ -1161,14 +1161,19 @@ footer p {
 }
 .recipe-tier-viewer {
   padding: clamp(18px, 3vw, 30px);
+  container-type: inline-size;
 }
 .recipe-tier-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 28px 18px;
 }
+.recipe-tier-grid .recipe-card {
+  min-width: 0;
+}
 .recipe-tier-grid .recipe-workbench {
-  justify-content: flex-start;
+  width: 100%;
+  justify-content: center;
   padding: 15px;
 }
 .recipe-tier-grid .recipe-grid {
