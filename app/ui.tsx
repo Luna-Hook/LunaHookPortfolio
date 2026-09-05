@@ -370,37 +370,6 @@ export function Shell({
 }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let observer: IntersectionObserver | undefined;
-    const frame = requestAnimationFrame(() => {
-      const nodes = Array.from(
-        document.querySelectorAll<HTMLElement>(
-          "main > .section:not(.hero):not(.page-hero), main .plugin-card, main .server-grid article, main .doc-section",
-        ),
-      );
-      observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("reveal-visible");
-              observer?.unobserve(entry.target);
-            }
-          }
-        },
-        { threshold: 0.08, rootMargin: "0px 0px -8%" },
-      );
-      nodes.forEach((node, index) => {
-        node.classList.add("reveal-ready");
-        node.style.setProperty("--reveal-order", String(index % 6));
-        observer?.observe(node);
-      });
-    });
-    return () => {
-      cancelAnimationFrame(frame);
-      observer?.disconnect();
-    };
-  }, [pathname]);
   return (
     <div className="site-shell">
       <a className="skip-link" href="#main">
@@ -663,29 +632,8 @@ function PluginCard({ plugin }: { plugin: Plugin }) {
 }
 
 function Stats() {
-  const [visible, setVisible] = useState(false);
-  const statsRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const element = statsRef.current;
-    if (!element) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.35 },
-    );
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
   return (
-    <section
-      ref={statsRef}
-      className={`metrics section ${visible ? "stats-live" : ""}`}
-      aria-label="Portfolio statistics"
-    >
+    <section className="metrics section" aria-label="Portfolio statistics">
       <div>
         <strong>41</strong>
         <span>complete plugin guides</span>

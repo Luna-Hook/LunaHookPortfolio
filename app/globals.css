@@ -956,18 +956,6 @@ footer p {
   min-width: 2.2ch;
   font-variant-numeric: tabular-nums;
 }
-.stats-live strong {
-  animation: stat-settle 0.52s cubic-bezier(0.2, 0.75, 0.2, 1) both;
-}
-.stats-live div:nth-child(2) strong {
-  animation-delay: 70ms;
-}
-.stats-live div:nth-child(3) strong {
-  animation-delay: 140ms;
-}
-.stats-live div:nth-child(4) strong {
-  animation-delay: 210ms;
-}
 .goal-matcher {
   margin: 0 0 44px;
   padding: clamp(24px, 4vw, 44px);
@@ -1186,57 +1174,6 @@ footer p {
 *:focus-visible {
   outline: 3px solid var(--green);
   outline-offset: 3px;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .route-enter {
-    animation: route-in 0.28s cubic-bezier(0.2, 0.72, 0.2, 1) both;
-  }
-  .reveal-ready {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  .reveal-ready.reveal-visible {
-    animation: reveal-in 0.52s cubic-bezier(0.2, 0.72, 0.2, 1) both;
-    animation-delay: calc(var(--reveal-order, 0) * 48ms);
-  }
-  .hero-copy {
-    animation: rise 0.6s ease both;
-  }
-  .craft-panel {
-    animation: rise 0.7s 0.08s ease both;
-  }
-  @keyframes route-in {
-    from {
-      opacity: 0.78;
-      transform: translateX(14px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  @keyframes reveal-in {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes stat-settle {
-    from {
-      opacity: 0.45;
-      transform: translateY(10px) scale(0.94);
-    }
-  }
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero {
