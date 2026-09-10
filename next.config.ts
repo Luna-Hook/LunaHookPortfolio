@@ -9,7 +9,10 @@ const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
   basePath,
-  images: { unoptimized: true },
+  images: {
+    unoptimized: true,
+    remotePatterns: [{ protocol: "https", hostname: "mc-heads.net" }],
+  },
 };
 
 export default nextConfig;
