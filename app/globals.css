@@ -777,6 +777,64 @@ h3 {
   margin-top: 36px;
   padding: 14px;
 }
+.about-home {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(36px, 6vw, 88px);
+  align-items: start;
+  background: #f9ecd5;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.about-home h2 {
+  margin: 14px 0 18px;
+}
+.about-home p {
+  color: #67483a;
+}
+.about-facts,
+.server-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.about-facts span,
+.server-meta span {
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  background: rgba(230, 184, 120, 0.3);
+  color: var(--wood);
+  font-size: 12px;
+}
+.about-facts b {
+  margin-right: 5px;
+  color: var(--ink);
+}
+.ai-notice {
+  padding: clamp(24px, 4vw, 42px);
+  background: var(--espresso);
+  color: var(--paper);
+  box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.12);
+}
+.ai-notice h3 {
+  margin: 0 0 12px;
+  color: var(--gold);
+  font-size: 25px;
+}
+.ai-notice p,
+.ai-notice ol {
+  color: #f2dcb9;
+}
+.ai-notice ol {
+  margin: 16px 0 0;
+  padding-left: 22px;
+}
+.server-meta {
+  margin: -10px 0 18px;
+}
+.previous-servers {
+  padding-top: 0;
+}
 .contact {
   display: grid;
   grid-template-columns: 1.3fr 0.7fr;
@@ -1190,6 +1248,7 @@ footer p {
   }
   .hero,
   .split,
+  .about-home,
   .contact {
     grid-template-columns: 1fr;
   }

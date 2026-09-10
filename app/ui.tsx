@@ -635,11 +635,11 @@ function Stats() {
   return (
     <section className="metrics section" aria-label="Portfolio statistics">
       <div>
-        <strong>41</strong>
+        <strong>57</strong>
         <span>complete plugin guides</span>
       </div>
       <div>
-        <strong>31</strong>
+        <strong>47</strong>
         <span>public repositories</span>
       </div>
       <div>
@@ -887,7 +887,7 @@ export function HomePage() {
               Discuss a project <span>↗</span>
             </a>
             <Link className="button ghost" href="/plugins">
-              Explore 41 plugins
+              Explore 57 plugins
             </Link>
           </div>
           <div className="availability">
@@ -917,6 +917,35 @@ export function HomePage() {
             <b>Professional first.</b> Minecraft-flavored by craft, not costume.
           </p>
         </div>
+      </section>
+      <section className="section about-home" aria-labelledby="about-luna">
+        <div>
+          <Mark>About me</Mark>
+          <h2 id="about-luna">Luna (/ˈluːnə/ “LOO-nuh”)</h2>
+          <div className="about-facts" aria-label="About Luna">
+            <span><b>Age</b> 17 years old</span>
+            <span><b>DOB</b> May 6, 2009</span>
+          </div>
+          <p>
+            I build and operate Minecraft server systems, from focused gameplay
+            plugins to the tooling, integrations, and documentation that keep a
+            community running smoothly.
+          </p>
+        </div>
+        <aside className="ai-notice">
+          <h3>AI Notice:</h3>
+          <p>
+            There are dozens of children and other players that bring disgrace
+            to the position of developer by making plugins entirely with AI.
+            While I am <strong>not</strong> one of those people, I still use AI
+            to code efficiently. The main things I utalize AI for:
+          </p>
+          <ol>
+            <li>Format user-documents, like setup.md and config.yml</li>
+            <li>Easily find documentation for complicated plug</li>
+            <li>Catch bugs in the code and notify me</li>
+          </ol>
+        </aside>
       </section>
       <Stats />
       <section className="section split">
@@ -1030,7 +1059,7 @@ export function PluginsPage() {
       <section className="section catalog">
         <GoalMatcher />
         <div className="search-box">
-          <label htmlFor="plugin-search">Search all 41 complete guides</label>
+          <label htmlFor="plugin-search">Search all 57 complete guides</label>
           <div>
             <span>⌕</span>
             <input
@@ -1425,41 +1454,204 @@ export function PluginDetail({ plugin }: { plugin: Plugin }) {
 }
 
 export function ServersPage() {
-  const servers = [
+  type ServerCardData = {
+    name: string;
+    state: string;
+    kind: string;
+    members?: string;
+    role?: string;
+    body: string;
+    action?: string;
+    value?: string;
+    discordHref?: string;
+    href?: string;
+  };
+  const activeServers: ServerCardData[] = [
     {
-      name: "Paradox FFA",
-      state: "Online",
-      kind: "Public free-for-all",
-      body: "A public combat server and the live home of Paradox Weapons gameplay.",
+      name: "Mineverse Events",
+      state: "Open",
+      kind: "Public event server",
+      members: "150 members",
+      body: "A live events server built around community competitions and special Minecraft experiences.",
       action: "Copy join IP",
-      value: "PARADOXFFA.SERV.CX",
-      discordHref: paradoxDiscord,
+      value: "relicevents.net",
+      discordHref: "https://discord.gg/jmNcMt2zxn",
     },
     {
-      name: "Paradox SMP",
-      state: "Applications",
+      name: "Crunchie's SMP",
+      state: "Open",
+      kind: "Public survival",
+      members: "800 members",
+      body: "Crunchie's main survival server, featuring custom systems, progression, and an active community.",
+      action: "Copy join IP",
+      value: "crunchie.lol",
+      discordHref: "https://discord.gg/crunchie",
+    },
+    {
+      name: "Crunchie's Events",
+      state: "Open",
+      kind: "Public event server",
+      members: "800 members",
+      body: "The dedicated event side of Crunchie's network for competitions, community games, and special releases.",
+      action: "Copy join IP",
+      value: "crunchie.lol",
+      discordHref: "https://discord.gg/crunchie",
+    },
+    {
+      name: "Imperial SMP",
+      state: "Open",
       kind: "Community survival",
-      body: "Application-based SMP access and community onboarding through Discord.",
+      members: "2,600 members",
+      body: "A civilization-focused survival server with custom territory, power, progression, and raiding systems.",
+      action: "IP coming soon",
+      discordHref: "https://discord.gg/RB44zDRh5N",
+    },
+    {
+      name: "Illicit SMP",
+      state: "Applications only",
+      kind: "Private survival",
+      members: "150 members",
+      body: "A curated survival community. Access is available through an application in the official Discord.",
       action: "Apply through Discord",
+      href: "https://discord.gg/N357y2fX9g",
+    },
+  ];
+  const previousServers: ServerCardData[] = [
+    {
+      name: "Paradox FFA",
+      state: "Temporarily discontinued",
+      kind: "Server archive",
+      members: "250 members",
+      body: "The public free-for-all server is temporarily discontinued. Its community Discord remains available for updates.",
+      action: "Open Discord",
       href: paradoxDiscord,
     },
     {
-      name: "Velexis",
+      name: "Paradox SMP",
       state: "Temporarily discontinued",
       kind: "Server archive",
+      members: "250 members",
+      body: "The Paradox survival server is temporarily discontinued. Its community Discord remains available for updates.",
+      action: "Open Discord",
+      href: paradoxDiscord,
+    },
+    {
+      name: "Valexis",
+      state: "Temporarily discontinued",
+      kind: "Server archive",
+      members: "200 members",
       body: "Not currently operating. The community Discord remains available for updates and history.",
       action: "Open Discord",
       href: "https://discord.gg/UU47qda5Wu",
     },
     {
       name: "Corrupted",
-      state: "Temporarily discontinued",
-      kind: "Formerly Shatter",
-      body: "A previous community project retained here as a brief part of Luna's server history.",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "2,600 members",
+      body: "A previous community project retained as part of Luna's server development history.",
       action: "Open Discord",
       href: "https://discord.gg/d5JXDF7HRY",
     },
+    {
+      name: "Shatter SMP",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "2,800 members",
+      body: "A previous community project retained as part of Luna's server development history.",
+    },
+    {
+      name: "Red SMP",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "50 members",
+      body: "A previous community project retained as part of Luna's server development history.",
+    },
+    {
+      name: "Foreign SMP",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "200 members",
+      body: "A previous community project retained as part of Luna's server development history.",
+    },
+    {
+      name: "Frost SMP",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "100 members",
+      body: "A previous community project retained as part of Luna's server development history.",
+    },
+    {
+      name: "Nova SMP",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "100 members",
+      body: "A previous community project retained as part of Luna's server development history.",
+    },
+    {
+      name: "Hollow SMP",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "50 members",
+      role: "Developer",
+      body: "A previous community project retained as part of Luna's server development history.",
+    },
+    {
+      name: "Doom Events",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "100 members",
+      body: "A previous community project retained as part of Luna's server development history.",
+    },
+    {
+      name: "Essence SMP",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "215 members",
+      body: "A previous community project retained as part of Luna's server development history.",
+    },
+    {
+      name: "Eternal SMP",
+      state: "Inactive",
+      kind: "Previous community project",
+      members: "50 members",
+      body: "A previous community project retained as part of Luna's server development history.",
+    },
   ];
+  const serverCard = (s: ServerCardData, i: number) => (
+    <article key={s.name}>
+      <div className="server-number">{String(i + 1).padStart(2, "0")}</div>
+      <div className="card-top">
+        <span className={s.state === "Open" ? "live" : "beta"}>{s.state}</span>
+        <span>{s.kind}</span>
+      </div>
+      <h2>{s.name}</h2>
+      <div className="server-meta">
+        {s.members ? <span>{s.members}</span> : null}
+        {s.role ? <span>Role: {s.role}</span> : null}
+      </div>
+      <p>{s.body}</p>
+      {s.value || s.href || s.discordHref ? (
+        <div className="hero-actions">
+          {s.value ? (
+            <>
+              <CopyButton text={s.value} label={`${s.action}: ${s.value}`} compact />
+              {s.discordHref ? (
+                <a className="button ghost" href={s.discordHref} target="_blank" rel="noreferrer">Join Discord ↗</a>
+              ) : null}
+            </>
+          ) : s.href ? (
+            <a className="button ghost" href={s.href} target="_blank" rel="noreferrer">{s.action} ↗</a>
+          ) : (
+            <>
+              <span className="button ghost" aria-disabled="true">{s.action}</span>
+              <a className="button ghost" href={s.discordHref} target="_blank" rel="noreferrer">Join Discord ↗</a>
+            </>
+          )}
+        </div>
+      ) : null}
+    </article>
+  );
   return (
     <Shell>
       <section className="page-hero section">
@@ -1469,52 +1661,24 @@ export function ServersPage() {
         </div>
         <h1>Communities are where systems get real.</h1>
         <p>
-          Selected public servers and a short operational history. Plugin work
-          comes first; this page will grow as active projects do.
+          Listed below are some of the other server(s) that I have worked for in
+          the past. This list would normally include 50-60 different servers, so
+          instead I am just going to list the most recent servers.
         </p>
       </section>
       <section className="section server-grid">
-        {servers.map((s, i) => (
-          <article key={s.name}>
-            <div className="server-number">0{i + 1}</div>
-            <div className="card-top">
-              <span className={s.state === "Online" ? "live" : "beta"}>
-                {s.state}
-              </span>
-              <span>{s.kind}</span>
-            </div>
-            <h2>{s.name}</h2>
-            <p>{s.body}</p>
-            <div className="hero-actions">
-              {s.value ? (
-                <>
-                  <CopyButton
-                    text={s.value}
-                    label={`${s.action}: ${s.value}`}
-                    compact
-                  />
-                  <a
-                    className="button ghost"
-                    href={s.discordHref}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Join Discord ↗
-                  </a>
-                </>
-              ) : (
-                <a
-                  className="button ghost"
-                  href={s.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {s.action} ↗
-                </a>
-              )}
-            </div>
-          </article>
-        ))}
+        {activeServers.map(serverCard)}
+      </section>
+      <section className="section previous-servers">
+        <div className="section-head">
+          <div>
+            <Mark>Archive</Mark>
+            <h2>Previous & inactive community projects</h2>
+          </div>
+        </div>
+        <div className="server-grid">
+          {previousServers.map((server, index) => serverCard(server, activeServers.length + index))}
+        </div>
       </section>
     </Shell>
   );
