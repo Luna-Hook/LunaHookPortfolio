@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Plugin, plugins, searchText } from "./data/plugins";
@@ -918,35 +919,6 @@ export function HomePage() {
           </p>
         </div>
       </section>
-      <section className="section about-home" aria-labelledby="about-luna">
-        <div>
-          <Mark>About me</Mark>
-          <h2 id="about-luna">Luna (/ˈluːnə/ “LOO-nuh”)</h2>
-          <div className="about-facts" aria-label="About Luna">
-            <span><b>Age</b> 17 years old</span>
-            <span><b>DOB</b> May 6, 2009</span>
-          </div>
-          <p>
-            I build and operate Minecraft server systems, from focused gameplay
-            plugins to the tooling, integrations, and documentation that keep a
-            community running smoothly.
-          </p>
-        </div>
-        <aside className="ai-notice">
-          <h3>AI Notice:</h3>
-          <p>
-            There are dozens of children and other players that bring disgrace
-            to the position of developer by making plugins entirely with AI.
-            While I am <strong>not</strong> one of those people, I still use AI
-            to code efficiently. The main things I utalize AI for:
-          </p>
-          <ol>
-            <li>Format user-documents, like setup.md and config.yml</li>
-            <li>Easily find documentation for complicated plug</li>
-            <li>Catch bugs in the code and notify me</li>
-          </ol>
-        </aside>
-      </section>
       <Stats />
       <section className="section split">
         <div>
@@ -982,6 +954,14 @@ export function HomePage() {
           ))}
         </div>
       </section>
+      <aside className="section home-ai-notice" aria-labelledby="ai-notice-title">
+        <h2 id="ai-notice-title">AI Notice</h2>
+        <ol>
+          <li>Format user-documents, like setup.md and config.yml</li>
+          <li>Easily find documentation for complicated syntax</li>
+          <li>Catch bugs in the code and notify me when it detects something</li>
+        </ol>
+      </aside>
     </Shell>
   );
 }
@@ -1458,7 +1438,8 @@ export function ServersPage() {
     name: string;
     state: string;
     kind: string;
-    members?: string;
+    memberCount: number;
+    tags: string[];
     role?: string;
     body: string;
     action?: string;
@@ -1471,7 +1452,8 @@ export function ServersPage() {
       name: "Mineverse Events",
       state: "Open",
       kind: "Public event server",
-      members: "150 members",
+      memberCount: 150,
+      tags: ["events", "public", "open"],
       body: "A live events server built around community competitions and special Minecraft experiences.",
       action: "Copy join IP",
       value: "relicevents.net",
@@ -1481,7 +1463,8 @@ export function ServersPage() {
       name: "Crunchie's SMP",
       state: "Open",
       kind: "Public survival",
-      members: "800 members",
+      memberCount: 800,
+      tags: ["smp", "survival", "public", "open"],
       body: "Crunchie's main survival server, featuring custom systems, progression, and an active community.",
       action: "Copy join IP",
       value: "crunchie.lol",
@@ -1491,7 +1474,8 @@ export function ServersPage() {
       name: "Crunchie's Events",
       state: "Open",
       kind: "Public event server",
-      members: "800 members",
+      memberCount: 800,
+      tags: ["events", "public", "open"],
       body: "The dedicated event side of Crunchie's network for competitions, community games, and special releases.",
       action: "Copy join IP",
       value: "crunchie.lol",
@@ -1501,7 +1485,8 @@ export function ServersPage() {
       name: "Imperial SMP",
       state: "Open",
       kind: "Community survival",
-      members: "2,600 members",
+      memberCount: 2600,
+      tags: ["smp", "survival", "open"],
       body: "A civilization-focused survival server with custom territory, power, progression, and raiding systems.",
       action: "IP coming soon",
       discordHref: "https://discord.gg/RB44zDRh5N",
@@ -1510,7 +1495,8 @@ export function ServersPage() {
       name: "Illicit SMP",
       state: "Applications only",
       kind: "Private survival",
-      members: "150 members",
+      memberCount: 150,
+      tags: ["smp", "survival", "private", "applications"],
       body: "A curated survival community. Access is available through an application in the official Discord.",
       action: "Apply through Discord",
       href: "https://discord.gg/N357y2fX9g",
@@ -1521,7 +1507,8 @@ export function ServersPage() {
       name: "Paradox FFA",
       state: "Temporarily discontinued",
       kind: "Server archive",
-      members: "250 members",
+      memberCount: 250,
+      tags: ["ffa", "archive", "discontinued"],
       body: "The public free-for-all server is temporarily discontinued. Its community Discord remains available for updates.",
       action: "Open Discord",
       href: paradoxDiscord,
@@ -1530,7 +1517,8 @@ export function ServersPage() {
       name: "Paradox SMP",
       state: "Temporarily discontinued",
       kind: "Server archive",
-      members: "250 members",
+      memberCount: 250,
+      tags: ["smp", "survival", "archive", "discontinued"],
       body: "The Paradox survival server is temporarily discontinued. Its community Discord remains available for updates.",
       action: "Open Discord",
       href: paradoxDiscord,
@@ -1539,7 +1527,8 @@ export function ServersPage() {
       name: "Valexis",
       state: "Temporarily discontinued",
       kind: "Server archive",
-      members: "200 members",
+      memberCount: 200,
+      tags: ["archive", "discontinued"],
       body: "Not currently operating. The community Discord remains available for updates and history.",
       action: "Open Discord",
       href: "https://discord.gg/UU47qda5Wu",
@@ -1548,7 +1537,8 @@ export function ServersPage() {
       name: "Corrupted",
       state: "Inactive",
       kind: "Previous community project",
-      members: "2,600 members",
+      memberCount: 2600,
+      tags: ["archive", "inactive"],
       body: "A previous community project retained as part of Luna's server development history.",
       action: "Open Discord",
       href: "https://discord.gg/d5JXDF7HRY",
@@ -1557,42 +1547,48 @@ export function ServersPage() {
       name: "Shatter SMP",
       state: "Inactive",
       kind: "Previous community project",
-      members: "2,800 members",
+      memberCount: 2800,
+      tags: ["smp", "archive", "inactive"],
       body: "A previous community project retained as part of Luna's server development history.",
     },
     {
       name: "Red SMP",
       state: "Inactive",
       kind: "Previous community project",
-      members: "50 members",
+      memberCount: 50,
+      tags: ["smp", "archive", "inactive"],
       body: "A previous community project retained as part of Luna's server development history.",
     },
     {
       name: "Foreign SMP",
       state: "Inactive",
       kind: "Previous community project",
-      members: "200 members",
+      memberCount: 200,
+      tags: ["smp", "archive", "inactive"],
       body: "A previous community project retained as part of Luna's server development history.",
     },
     {
       name: "Frost SMP",
       state: "Inactive",
       kind: "Previous community project",
-      members: "100 members",
+      memberCount: 100,
+      tags: ["smp", "archive", "inactive"],
       body: "A previous community project retained as part of Luna's server development history.",
     },
     {
       name: "Nova SMP",
       state: "Inactive",
       kind: "Previous community project",
-      members: "100 members",
+      memberCount: 100,
+      tags: ["smp", "archive", "inactive"],
       body: "A previous community project retained as part of Luna's server development history.",
     },
     {
       name: "Hollow SMP",
       state: "Inactive",
       kind: "Previous community project",
-      members: "50 members",
+      memberCount: 50,
+      tags: ["smp", "archive", "inactive"],
       role: "Developer",
       body: "A previous community project retained as part of Luna's server development history.",
     },
@@ -1600,24 +1596,88 @@ export function ServersPage() {
       name: "Doom Events",
       state: "Inactive",
       kind: "Previous community project",
-      members: "100 members",
+      memberCount: 100,
+      tags: ["events", "archive", "inactive"],
       body: "A previous community project retained as part of Luna's server development history.",
     },
     {
       name: "Essence SMP",
       state: "Inactive",
       kind: "Previous community project",
-      members: "215 members",
+      memberCount: 215,
+      tags: ["smp", "archive", "inactive"],
       body: "A previous community project retained as part of Luna's server development history.",
     },
     {
       name: "Eternal SMP",
       state: "Inactive",
       kind: "Previous community project",
-      members: "50 members",
+      memberCount: 50,
+      tags: ["smp", "archive", "inactive"],
       body: "A previous community project retained as part of Luna's server development history.",
     },
   ];
+  const allServers = [...activeServers, ...previousServers];
+  const [query, setQuery] = useState("");
+  const [status, setStatus] = useState("All");
+  const [kind, setKind] = useState("All");
+  const [memberBand, setMemberBand] = useState("All");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const statuses = [...new Set(allServers.map((server) => server.state))];
+  const kinds = [...new Set(allServers.map((server) => server.kind))];
+  const tags = [...new Set(allServers.flatMap((server) => server.tags))].sort();
+  const normalizedQuery = query.trim().toLowerCase();
+  const inMemberBand = (count: number) =>
+    memberBand === "All" ||
+    (memberBand === "Under 100" && count < 100) ||
+    (memberBand === "100–499" && count >= 100 && count <= 499) ||
+    (memberBand === "500–999" && count >= 500 && count <= 999) ||
+    (memberBand === "1,000+" && count >= 1000);
+  const matches = (server: ServerCardData) => {
+    const searchable = [
+      server.name,
+      server.kind,
+      server.state,
+      server.memberCount.toString(),
+      server.memberCount.toLocaleString(),
+      `${server.memberCount.toLocaleString()} members`,
+      server.role ?? "",
+      server.body,
+      ...server.tags,
+    ]
+      .join(" ")
+      .toLowerCase();
+    return (
+      (!normalizedQuery || searchable.includes(normalizedQuery)) &&
+      (status === "All" || server.state === status) &&
+      (kind === "All" || server.kind === kind) &&
+      inMemberBand(server.memberCount) &&
+      (selectedTags.length === 0 ||
+        selectedTags.some((tag) => server.tags.includes(tag)))
+    );
+  };
+  const filteredActive = activeServers.filter(matches);
+  const filteredPrevious = previousServers.filter(matches);
+  const resultCount = filteredActive.length + filteredPrevious.length;
+  const hasFilters =
+    query !== "" ||
+    status !== "All" ||
+    kind !== "All" ||
+    memberBand !== "All" ||
+    selectedTags.length > 0;
+  const clearFilters = () => {
+    setQuery("");
+    setStatus("All");
+    setKind("All");
+    setMemberBand("All");
+    setSelectedTags([]);
+  };
+  const toggleTag = (tag: string) =>
+    setSelectedTags((current) =>
+      current.includes(tag)
+        ? current.filter((item) => item !== tag)
+        : [...current, tag],
+    );
   const serverCard = (s: ServerCardData, i: number) => (
     <article key={s.name}>
       <div className="server-number">{String(i + 1).padStart(2, "0")}</div>
@@ -1627,8 +1687,11 @@ export function ServersPage() {
       </div>
       <h2>{s.name}</h2>
       <div className="server-meta">
-        {s.members ? <span>{s.members}</span> : null}
+        <span>{s.memberCount.toLocaleString()} members</span>
         {s.role ? <span>Role: {s.role}</span> : null}
+      </div>
+      <div className="server-tags" aria-label={`${s.name} tags`}>
+        {s.tags.map((tag) => <span key={tag}>{tag}</span>)}
       </div>
       <p>{s.body}</p>
       {s.value || s.href || s.discordHref ? (
@@ -1666,20 +1729,96 @@ export function ServersPage() {
           instead I am just going to list the most recent servers.
         </p>
       </section>
-      <section className="section server-grid">
-        {activeServers.map(serverCard)}
+      <section className="section server-filter-panel" aria-labelledby="server-filter-title">
+        <div className="server-search-row">
+          <label>
+            <span id="server-filter-title">Search servers</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Name, tag, status, role, members…"
+            />
+          </label>
+          <button type="button" className="button ghost" onClick={clearFilters} disabled={!hasFilters}>
+            Clear filters
+          </button>
+        </div>
+        <div className="server-filter-grid">
+          <label>
+            <span>Status</span>
+            <select value={status} onChange={(event) => setStatus(event.target.value)}>
+              <option>All</option>
+              {statuses.map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Server type</span>
+            <select value={kind} onChange={(event) => setKind(event.target.value)}>
+              <option>All</option>
+              {kinds.map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Member count</span>
+            <select value={memberBand} onChange={(event) => setMemberBand(event.target.value)}>
+              {['All', 'Under 100', '100–499', '500–999', '1,000+'].map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+        </div>
+        <fieldset className="tag-filter">
+          <legend>Tags <small>Selecting more than one matches any selected tag</small></legend>
+          <div>
+            {tags.map((tag) => (
+              <button
+                type="button"
+                key={tag}
+                aria-pressed={selectedTags.includes(tag)}
+                onClick={() => toggleTag(tag)}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+        <div className="server-results" role="status" aria-live="polite">
+          <strong>{resultCount}</strong> {resultCount === 1 ? "server" : "servers"} found
+        </div>
       </section>
-      <section className="section previous-servers">
+      {filteredActive.length > 0 ? (
+        <section className="section server-results-section" aria-labelledby="active-server-results">
+          <div className="section-head">
+            <div>
+              <Mark>Current</Mark>
+              <h2 id="active-server-results">Open & application-based servers</h2>
+            </div>
+          </div>
+          <div className="server-grid">
+            {filteredActive.map((server) => serverCard(server, allServers.indexOf(server)))}
+          </div>
+        </section>
+      ) : null}
+      {filteredPrevious.length > 0 ? (
+      <section className="section previous-servers" aria-labelledby="previous-server-results">
         <div className="section-head">
           <div>
             <Mark>Archive</Mark>
-            <h2>Previous & inactive community projects</h2>
+            <h2 id="previous-server-results">Previous & inactive community projects</h2>
           </div>
         </div>
         <div className="server-grid">
-          {previousServers.map((server, index) => serverCard(server, activeServers.length + index))}
+          {filteredPrevious.map((server) => serverCard(server, allServers.indexOf(server)))}
         </div>
       </section>
+      ) : null}
+      {resultCount === 0 ? (
+        <section className="section server-empty">
+          <Mark>No matches</Mark>
+          <h2>No servers fit those filters.</h2>
+          <p>Try a broader search, remove a tag, or reset every filter.</p>
+          <button type="button" className="button primary" onClick={clearFilters}>Reset filters</button>
+        </section>
+      ) : null}
     </Shell>
   );
 }
@@ -1717,17 +1856,32 @@ export function ContactPage() {
           </a>
         </div>
       </section>
-      <section className="section split">
+      <section className="section identity-card" aria-labelledby="luna-identity">
+        <div className="identity-avatar">
+          <span aria-hidden="true">LH</span>
+          <Image
+            src="https://mc-heads.net/avatar/LunaHook/128"
+            alt="LunaHook's Minecraft skin head"
+            width="128"
+            height="128"
+            onError={(event) => event.currentTarget.remove()}
+          />
+        </div>
+        <div className="identity-copy">
+          <Mark>About Luna</Mark>
+          <h2 id="luna-identity">Luna (/ˈluːnə/ “LOO-nuh”)</h2>
+          <div className="identity-facts" aria-label="Luna's details">
+            <span><b>Age</b> 17 years old</span>
+            <span><b>DOB</b> May 6, 2009</span>
+          </div>
+        </div>
+      </section>
+      <section className="section split partnership">
         <div>
           <Mark>Technical partnership</Mark>
           <h2>Clear communication before, during, and after the build.</h2>
         </div>
         <div className="prose">
-          <p>
-            I’m Luna Hook, a high-school developer building Minecraft plugins,
-            Discord integrations, server tooling, and community systems around
-            real operational needs.
-          </p>
           <p>
             My focus is the complete experience: reliable mechanics, practical
             commands, permissions, safe configuration, useful feedback,
