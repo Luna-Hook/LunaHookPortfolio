@@ -1503,6 +1503,16 @@ export function ServersPage() {
       action: "Apply through Discord",
       href: "https://discord.gg/N357y2fX9g",
     },
+    {
+      name: "Rift SMP",
+      state: "Applications only",
+      kind: "Scripted survival",
+      memberCount: 200,
+      tags: ["smp", "scripted", "events", "private", "applications"],
+      body: "A 200-member scripted survival community with story-driven gameplay and occasional scripted events. Access is available by application.",
+      action: "Apply to join",
+      href: discord,
+    },
   ];
   const previousServers: ServerCardData[] = [
     {
