@@ -636,15 +636,15 @@ function Stats() {
   return (
     <section className="metrics section" aria-label="Portfolio statistics">
       <div>
-        <strong>57</strong>
+        <strong>{plugins.length}</strong>
         <span>complete plugin guides</span>
       </div>
       <div>
-        <strong>47</strong>
+        <strong>{plugins.filter((plugin) => plugin.github).length}</strong>
         <span>public repositories</span>
       </div>
       <div>
-        <strong>10</strong>
+        <strong>{plugins.filter((plugin) => plugin.status !== "Public").length}</strong>
         <span>request-only builds</span>
       </div>
       <div>
@@ -1039,7 +1039,9 @@ export function PluginsPage() {
       <section className="section catalog">
         <GoalMatcher />
         <div className="search-box">
-          <label htmlFor="plugin-search">Search all 57 complete guides</label>
+          <label htmlFor="plugin-search">
+            Search all {plugins.length} complete guides
+          </label>
           <div>
             <span>⌕</span>
             <input
