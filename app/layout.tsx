@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     title: "Luna Hook — Developer Portfolio",
     description: "Plugins, systems, servers, custom work and commissions.",
     type: "website",
-    images: [{ url: `${basePath}/og.png`, width: 1200, height: 630, alt: "Luna Hook developer portfolio" }],
+    images: [{ url: `${basePath}/portfolio-cover-minimal.png`, width: 1200, height: 630, alt: "Luna Hook developer portfolio" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Luna Hook — Developer Portfolio",
     description: "Plugins, systems, servers, custom work and commissions.",
-    images: [`${basePath}/og.png`],
+    images: [`${basePath}/portfolio-cover-minimal.png`],
   },
 };
 
