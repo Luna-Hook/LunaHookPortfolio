@@ -451,6 +451,14 @@ h3 {
   background: rgba(217, 72, 59, 0.14);
   color: #a42c23;
 }
+.status.discontinued {
+  background: rgba(107, 58, 32, 0.16);
+  color: #63351d;
+}
+.status.in-development {
+  background: rgba(230, 184, 120, 0.35);
+  color: #704114;
+}
 .beta {
   background: var(--gold);
 }
@@ -588,6 +596,16 @@ h3 {
 .plugin-meta .status.security-hold {
   background: #f0b0a7;
   color: #57160f;
+}
+.plugin-meta .status.discontinued {
+  background: #5a3020;
+  border-color: #c58a54;
+  color: #f4e5cb;
+}
+.plugin-meta .status.in-development {
+  background: #6b3a20;
+  border-color: #e6b878;
+  color: #f4e5cb;
 }
 .plugin-meta .chips {
   margin-bottom: 0;

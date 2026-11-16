@@ -613,7 +613,11 @@ function PluginCard({ plugin }: { plugin: Plugin }) {
               ? "Public • Security Hold"
               : plugin.status === "Availability Paused"
                 ? "Private • Availability Paused"
-                : "Public"}
+                : plugin.status === "Discontinued"
+                  ? "Private • Discontinued • Final 4.17.0"
+                  : plugin.status === "In Development"
+                    ? "Private • In Development • Unreleased"
+                    : "Public"}
         </span>
         {plugin.beta && <span className="beta">Beta</span>}
       </div>
@@ -975,6 +979,12 @@ function score(plugin: Plugin, raw: string) {
   if (plugin.name.toLowerCase().includes(q)) result += 100;
   if (plugin.aliases.some((a) => a.toLowerCase().includes(q))) result += 80;
   for (const term of terms) {
+    if (plugin.name.toLowerCase() === term) result += 40;
+    if (plugin.aliases.some((alias) => alias.toLowerCase() === term))
+      result += 35;
+    if (plugin.name.toLowerCase().includes(term)) result += 25;
+    if (plugin.aliases.some((alias) => alias.toLowerCase().includes(term)))
+      result += 20;
     if (text.includes(term)) result += 10;
     else if (
       [...new Set(text.split(/\W+/))].some(
@@ -1012,7 +1022,12 @@ export function PluginsPage() {
                 : status === "Private"
                   ? p.status === "Private"
                   : p.status === status)) &&
-            (beta === "All" || (beta === "Beta" ? p.beta : !p.beta)),
+            (beta === "All" ||
+              (beta === "Development"
+                ? p.status === "In Development"
+                : beta === "Beta"
+                  ? p.beta && p.status !== "In Development"
+                  : !p.beta && p.status !== "In Development")),
         )
         .sort((a, b) =>
           sort === "Name"
@@ -1040,7 +1055,7 @@ export function PluginsPage() {
         <GoalMatcher />
         <div className="search-box">
           <label htmlFor="plugin-search">
-            Search all {plugins.length} complete guides
+            Search all {plugins.length} documented plugin pages
           </label>
           <div>
             <span>⌕</span>
@@ -1076,13 +1091,15 @@ export function PluginsPage() {
               "Private",
               "Security Hold",
               "Availability Paused",
+              "Discontinued",
+              "In Development",
             ]}
           />
           <Select
             label="Release"
             value={beta}
             set={setBeta}
-            items={["All", "Beta", "Stable"]}
+            items={["All", "Beta", "Stable", "Development"]}
           />
           <Select
             label="Sort"
@@ -1226,7 +1243,11 @@ export function PluginDetail({ plugin }: { plugin: Plugin }) {
           : "Private • Available on Request"
         : plugin.status === "Security Hold"
           ? "Public • Security Hold"
-          : "Private • Availability Paused";
+          : plugin.status === "Availability Paused"
+            ? "Private • Availability Paused"
+            : plugin.status === "Discontinued"
+              ? "Private • Discontinued • Final 4.17.0"
+              : "Private • In Development • Unreleased";
   const [activeSection, setActiveSection] = useState("overview");
   useEffect(() => {
     const update = () => {
@@ -1272,6 +1293,11 @@ export function PluginDetail({ plugin }: { plugin: Plugin }) {
             <h1>{plugin.name}</h1>
             <p>{plugin.summary}</p>
             <div className="hero-actions">
+              {plugin.related?.map((item) => (
+                <Link className="button ghost" href={item.href} key={item.href}>
+                  {item.label} →
+                </Link>
+              ))}
               {plugin.github && (
                 <a
                   className="button ghost"
@@ -1297,7 +1323,11 @@ export function PluginDetail({ plugin }: { plugin: Plugin }) {
               )}{" "}
               {plugin.requestable === false && (
                 <span className="disabled-action">
-                  Distribution currently disabled
+                  {plugin.status === "Discontinued"
+                    ? "Discontinued • No new distribution"
+                    : plugin.status === "In Development"
+                      ? "Not released • Development in progress"
+                      : "Distribution currently disabled"}
                 </span>
               )}
             </div>
